@@ -30,6 +30,7 @@ body {
 }
 
 .gallery-image {
+    cursor: url('../img/bxs_hand-down.png'), pointer;
     width: 360px;
     height: 200px;
 }
