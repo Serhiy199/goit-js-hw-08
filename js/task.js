@@ -48,20 +48,50 @@ const images = [
     },
 ];
 
-for (const image of images) {
-    const { preview, original, description } = image;
-    const newString = `<li class="gallery-item">
-    <a class="gallery-link" href="${original}">
-        <img
-            class="gallery-image"
-            src="${preview}"
-            data-source="${original}"
-            alt="${description}"
-        />
-    </a>
-</li>`;
-    listGallery.insertAdjacentHTML('beforeend', newString);
-}
+// Перший спосіб вирішення завдання по створенню списку з картинок
+
+// const newString = images
+//     .map(
+//         ({ preview, original, description }) =>
+//             `<li class="gallery-item">
+//             <a class="gallery-link" href="${original}">
+//                 <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}"/>
+//             </a>
+//         </li>`
+//     )
+//     .join(' ');
+// listGallery.insertAdjacentHTML('beforeend', newString);
+
+// Другий (найнеоптимізованіший) спосіб вирішення завдання по створенню списку з картинок
+
+// for (const image of images) {
+//     const { preview, original, description } = image;
+//     const newString = `<li class="gallery-item">
+//     <a class="gallery-link" href="${original}">
+//         <img
+//             class="gallery-image"
+//             src="${preview}"
+//             data-source="${original}"
+//             alt="${description}"
+//         />
+//     </a>
+// </li>`;
+//     listGallery.insertAdjacentHTML('beforeend', newString);
+// }
+
+// Третій (найоптимізованіший) спосіб вирішення завдання по створенню списку з картинок
+
+const newString = images.reduce(
+    (html, { preview, original, description }) =>
+        html +
+        `<li class="gallery-item">
+            <a class="gallery-link" href="${original}">
+                <img class="gallery-image" src="${preview}" data-source="${original}" alt="${description}"/>
+            </a>
+        </li>`,
+    ''
+);
+listGallery.insertAdjacentHTML('beforeend', newString);
 
 function handleClickDestroy(event) {
     event.preventDefault();
@@ -71,7 +101,7 @@ function handleClickDestroy(event) {
     }
     // else {
     const instance = basicLightbox.create(`
-        <img src="${event.target.dataset.source}" width="800" height="600">
+        <img class="img-modal" src="${event.target.dataset.source}">
     `);
     // console.log(event.target.nodeName);
 
